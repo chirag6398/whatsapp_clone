@@ -4,7 +4,8 @@ import AttachFile from "@material-ui/icons/AttachFile";
 import { Avatar, IconButton } from "@material-ui/core";
 import MoreVert from "@material-ui/icons/MoreVert";
 import SearchOutLined from "@material-ui/icons/SearchOutlined";
-
+import MicIcon from "@material-ui/icons/MicNoneOutlined";
+import SentimentVerySatisfiedIcon from "@material-ui/icons/SentimentVerySatisfied";
 export default function Chat() {
   const [seed, setSeed] = useState("");
   useEffect(() => {
@@ -30,8 +31,60 @@ export default function Chat() {
           </IconButton>
         </div>
       </div>
-      <div className={chatStyle.chat_body}></div>
-      <div className={chatStyle.chat_footer}></div>
+      <div className={chatStyle.chat_body}>
+        <p className={`${chatStyle.message} ${true && chatStyle.receiver}`}>
+          <span
+            style={{
+              position: "absolute",
+              top: "-23px",
+              fontWeight: "800",
+            }}
+          >
+            userName
+          </span>
+          hello hey guys
+          <span
+            style={{
+              opacity: "0.8",
+              fontSize: "small",
+              fontWeight: "700",
+              marginLeft: "10px",
+            }}
+          >
+            4:30 pm
+          </span>
+        </p>
+        <p className={`${chatStyle.message} ${true && chatStyle.receiver}`}>
+          <span
+            style={{
+              position: "absolute",
+              top: "-23px",
+              fontWeight: "800",
+            }}
+          >
+            userName
+          </span>
+          hello hey guys
+          <span
+            style={{
+              opacity: "0.8",
+              fontSize: "small",
+              fontWeight: "700",
+              marginLeft: "10px",
+            }}
+          >
+            4:30 pm
+          </span>
+        </p>
+      </div>
+      <div className={chatStyle.chat_footer}>
+        <form>
+          <input type="text" placeholder="enter yor message..." />
+          <button>Send a message</button>
+        </form>
+        <SentimentVerySatisfiedIcon />
+        <MicIcon />
+      </div>
     </div>
   );
 }
