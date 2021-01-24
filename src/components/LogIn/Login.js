@@ -22,7 +22,10 @@ export default function Login() {
   return (
     <div className={loginStyle.login_extdiv}>
       <div className={loginStyle.login_container}>
-        <img src="https://upload.wikimedia.org/wikiped" alt="..." />
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_j6zKHu8BEYzvw9sK3O5kVj2jE5xA0NNdYw&usqp=CAU"
+          alt="..."
+        />
         <h2>Sign In to Whatsapp</h2>
         <Button onClick={signin}>Sign In with google</Button>
       </div>

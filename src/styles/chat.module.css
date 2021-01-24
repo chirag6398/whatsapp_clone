@@ -76,7 +76,5 @@ p {
 }
 .chat_footer > form > button {
   border: none;
-}
-.chat_footer > .MuiSvgIcon-root {
-  color: lightgray;
+  display: none;
 }

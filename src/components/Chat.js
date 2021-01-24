@@ -24,6 +24,7 @@ export default function Chat() {
       db.collection("rooms")
         .doc(roomId)
         .onSnapshot((snapshot) => {
+          // console.log(snapshot.data().name);
           setRoomName(snapshot.data().name);
         });
       db.collection("rooms")
@@ -48,7 +49,7 @@ export default function Chat() {
           // console.log()
         });
     }
-  }, [roomName]);
+  }, [roomId]);
 
   useEffect(() => {
     setSeed(Math.floor(Math.random() * 5000));
@@ -70,7 +71,7 @@ export default function Chat() {
         <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
         <div className={chatStyle.header_info}>
           <h3>{roomName}</h3>
-          <p>Last seen at...</p>
+          <p>Last seen at{new Date().toLocaleTimeString()}</p>
         </div>
         <div className={chatStyle.header_right}>
           <IconButton>
@@ -86,9 +87,12 @@ export default function Chat() {
       </div>
       <div className={chatStyle.chat_body}>
         {messages.map((message) => {
-          console.log(message);
           return (
-            <p className={`${chatStyle.message} ${true && chatStyle.receiver}`}>
+            <p
+              className={`${chatStyle.message} ${
+                message.name === user.displayName && chatStyle.receiver
+              }`}
+            >
               <span
                 style={{
                   fontWeight: "700",
@@ -101,9 +105,9 @@ export default function Chat() {
               {message.message}
               <span
                 style={{
-                  opacity: "0.8",
+                  opacity: "0.5",
                   fontSize: "small",
-                  fontWeight: "700",
+                  fontWeight: "600",
                   marginLeft: "10px",
                   display: "flex",
                   flexDirection: "row-reverse",
@@ -117,7 +121,7 @@ export default function Chat() {
         })}
       </div>
       <div className={chatStyle.chat_footer}>
-        <SentimentVerySatisfiedIcon />
+        <SentimentVerySatisfiedIcon style={{ color: "gray" }} />
         <form>
           <input
             type="text"
@@ -127,12 +131,10 @@ export default function Chat() {
             }}
             placeholder="enter yor message..."
           />
-          <button type="submit" onClick={sendMessage}>
-            Send a message
-          </button>
+          <button type="submit" onClick={sendMessage}></button>
         </form>
 
-        <MicIcon />
+        <MicIcon style={{ color: "gray" }} />
       </div>
     </div>
   );
