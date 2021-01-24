@@ -8,27 +8,59 @@ import MicIcon from "@material-ui/icons/MicNoneOutlined";
 import SentimentVerySatisfiedIcon from "@material-ui/icons/SentimentVerySatisfied";
 import { useParams } from "react-router-dom";
 import { db } from "../firebase/Firebase";
+import firebase from "firebase";
+import { useStateValue } from "../StateProvider/Stateprovider";
+// import userEvent from "@testing-library/user-event";
 export default function Chat() {
+  const [{ user }, dispatch] = useStateValue();
   const [seed, setSeed] = useState("");
   const [input, setInput] = useState("");
   const { roomId } = useParams();
   const [roomName, setRoomName] = useState();
-  console.log(roomId);
+  const [messages, setMessages] = useState([]);
+  var data = [];
   useEffect(() => {
     if (roomId) {
       db.collection("rooms")
         .doc(roomId)
         .onSnapshot((snapshot) => {
           setRoomName(snapshot.data().name);
-          console.log(snapshot.data());
+        });
+      db.collection("rooms")
+        .doc(roomId)
+        .collection("messages")
+        .orderBy("Timestamp", "asc")
+        .onSnapshot((snapshot) => {
+          data = snapshot.docs.map((doc) => {
+            return {
+              // Timestamp: new Date(doc.data().Timestamp).toString(),
+              name: doc.data().name,
+              message: doc.data().message,
+            };
+          });
+          console.log(data);
+          setMessages(data);
+          // setMessages(
+          //   snapshot.docs.map((doc) => {
+          //     return doc.data();
+          //   })
+          // );
+          // console.log()
         });
     }
   }, [roomName]);
+
   useEffect(() => {
     setSeed(Math.floor(Math.random() * 5000));
   }, []);
+
   const sendMessage = (e) => {
     e.preventDefault();
+    db.collection("rooms").doc(roomId).collection("messages").add({
+      message: input,
+      name: user.displayName,
+      Timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    });
 
     setInput("");
   };
@@ -53,50 +85,36 @@ export default function Chat() {
         </div>
       </div>
       <div className={chatStyle.chat_body}>
-        <p className={`${chatStyle.message} ${true && chatStyle.receiver}`}>
-          <span
-            style={{
-              position: "absolute",
-              top: "-23px",
-              fontWeight: "800",
-            }}
-          >
-            userName
-          </span>
-          hello hey guys
-          <span
-            style={{
-              opacity: "0.8",
-              fontSize: "small",
-              fontWeight: "700",
-              marginLeft: "10px",
-            }}
-          >
-            4:30 pm
-          </span>
-        </p>
-        <p className={`${chatStyle.message} ${true && chatStyle.receiver}`}>
-          <span
-            style={{
-              position: "absolute",
-              top: "-23px",
-              fontWeight: "800",
-            }}
-          >
-            userName
-          </span>
-          hello hey guys
-          <span
-            style={{
-              opacity: "0.8",
-              fontSize: "small",
-              fontWeight: "700",
-              marginLeft: "10px",
-            }}
-          >
-            4:30 pm
-          </span>
-        </p>
+        {messages.map((message) => {
+          console.log(message);
+          return (
+            <p className={`${chatStyle.message} ${true && chatStyle.receiver}`}>
+              <span
+                style={{
+                  fontWeight: "700",
+                  fontSize: "13px",
+                  marginBottom: "5px",
+                }}
+              >
+                {message.name}
+              </span>
+              {message.message}
+              <span
+                style={{
+                  opacity: "0.8",
+                  fontSize: "small",
+                  fontWeight: "700",
+                  marginLeft: "10px",
+                  display: "flex",
+                  flexDirection: "row-reverse",
+                }}
+              >
+                4:00 pm
+                {/* {new Date(message.Timestamp?.toDate().toUTCString())} */}
+              </span>
+            </p>
+          );
+        })}
       </div>
       <div className={chatStyle.chat_footer}>
         <SentimentVerySatisfiedIcon />

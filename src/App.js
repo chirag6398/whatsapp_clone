@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
 import Sidebar from "./components/Sidebar";
 import Chat from "./components/Chat.js";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import LogIn from "./components/LogIn/Login.js";
+import { useStateValue } from "./StateProvider/Stateprovider";
 
 import { auth } from "./firebase/Firebase";
 function App() {
-  const [user, setUser] = useState();
+  // const [user, setUser] = useState();
+  const [{ user }, dispatch] = useStateValue();
+
   return (
     <div className="app">
       {!user ? (
@@ -18,7 +21,6 @@ function App() {
             <Switch>
               <Route exact path="/">
                 <Sidebar />
-                <Chat />
               </Route>
               <Route exact path="/rooms/:roomId">
                 <Sidebar />
