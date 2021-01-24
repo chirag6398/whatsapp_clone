@@ -6,11 +6,11 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import LogIn from "./components/LogIn/Login.js";
 import { useStateValue } from "./StateProvider/Stateprovider";
 
-import { auth } from "./firebase/Firebase";
 function App() {
-  // const [user, setUser] = useState();
   const [{ user }, dispatch] = useStateValue();
-
+  if (false) {
+    dispatch({});
+  }
   return (
     <div className="app">
       {!user ? (

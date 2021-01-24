@@ -18,7 +18,10 @@ export default function Chat() {
   const { roomId } = useParams();
   const [roomName, setRoomName] = useState();
   const [messages, setMessages] = useState([]);
-  var data = [];
+  // var data = [];
+  if (false) {
+    dispatch({});
+  }
   useEffect(() => {
     if (roomId) {
       db.collection("rooms")
@@ -32,15 +35,22 @@ export default function Chat() {
         .collection("messages")
         .orderBy("Timestamp", "asc")
         .onSnapshot((snapshot) => {
-          data = snapshot.docs.map((doc) => {
-            return {
-              // Timestamp: new Date(doc.data().Timestamp).toString(),
-              name: doc.data().name,
-              message: doc.data().message,
-            };
-          });
-          console.log(data);
-          setMessages(data);
+          // data = snapshot.docs.map((doc) => {
+          //   return {
+          //     // Timestamp: new Date(doc.data().Timestamp).toString(),
+          //     name: doc.data().name,
+          //     message: doc.data().message,
+          //   };
+          // });
+
+          setMessages(
+            snapshot.docs.map((doc) => {
+              return {
+                name: doc.data().name,
+                message: doc.data().message,
+              };
+            })
+          );
           // setMessages(
           //   snapshot.docs.map((doc) => {
           //     return doc.data();
@@ -86,9 +96,10 @@ export default function Chat() {
         </div>
       </div>
       <div className={chatStyle.chat_body}>
-        {messages.map((message) => {
+        {messages.map((message, i) => {
           return (
             <p
+              key={i}
               className={`${chatStyle.message} ${
                 message.name === user.displayName && chatStyle.receiver
               }`}

@@ -13,7 +13,9 @@ import { db } from "../firebase/Firebase";
 export default function Sidebar() {
   const [rooms, setRooms] = useState([]);
   const [{ user }, dispatch] = useStateValue();
-
+  if (false) {
+    dispatch({});
+  }
   useEffect(() => {
     const unSuscribe = db.collection("rooms").onSnapshot((snapshot) => {
       setRooms(
