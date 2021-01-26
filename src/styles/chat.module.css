@@ -52,6 +52,9 @@ p {
   width: fit-content;
   margin-bottom: 30px;
 }
+.message::selection {
+  background-color: rgb(174, 238, 0);
+}
 .receiver {
   margin-left: auto;
   background-color: #dcf8c6;

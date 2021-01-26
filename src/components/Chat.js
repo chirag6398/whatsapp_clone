@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import chatStyle from "../styles/chat.module.css";
 import AttachFile from "@material-ui/icons/AttachFile";
 import { Avatar, IconButton } from "@material-ui/core";
@@ -18,16 +18,20 @@ export default function Chat() {
   const { roomId } = useParams();
   const [roomName, setRoomName] = useState();
   const [messages, setMessages] = useState([]);
-  // var data = [];
+  const divRef = useRef(null);
+
   if (false) {
     dispatch({});
   }
+  useEffect(() => {
+    divRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   useEffect(() => {
     if (roomId) {
       db.collection("rooms")
         .doc(roomId)
         .onSnapshot((snapshot) => {
-          // console.log(snapshot.data().name);
           setRoomName(snapshot.data().name);
         });
       db.collection("rooms")
@@ -35,14 +39,6 @@ export default function Chat() {
         .collection("messages")
         .orderBy("Timestamp", "asc")
         .onSnapshot((snapshot) => {
-          // data = snapshot.docs.map((doc) => {
-          //   return {
-          //     // Timestamp: new Date(doc.data().Timestamp).toString(),
-          //     name: doc.data().name,
-          //     message: doc.data().message,
-          //   };
-          // });
-
           setMessages(
             snapshot.docs.map((doc) => {
               return {
@@ -51,12 +47,6 @@ export default function Chat() {
               };
             })
           );
-          // setMessages(
-          //   snapshot.docs.map((doc) => {
-          //     return doc.data();
-          //   })
-          // );
-          // console.log()
         });
     }
   }, [roomId]);
@@ -98,36 +88,38 @@ export default function Chat() {
       <div className={chatStyle.chat_body}>
         {messages.map((message, i) => {
           return (
-            <p
-              key={i}
-              className={`${chatStyle.message} ${
-                message.name === user.displayName && chatStyle.receiver
-              }`}
-            >
-              <span
-                style={{
-                  fontWeight: "700",
-                  fontSize: "13px",
-                  marginBottom: "5px",
-                }}
+            <div key={i}>
+              <p
+                className={`${chatStyle.message} ${
+                  message.name === user.displayName && chatStyle.receiver
+                }`}
               >
-                {message.name}
-              </span>
-              {message.message}
-              <span
-                style={{
-                  opacity: "0.5",
-                  fontSize: "small",
-                  fontWeight: "600",
-                  marginLeft: "10px",
-                  display: "flex",
-                  flexDirection: "row-reverse",
-                }}
-              >
-                4:00 pm
-                {/* {new Date(message.Timestamp?.toDate().toUTCString())} */}
-              </span>
-            </p>
+                <span
+                  style={{
+                    fontWeight: "700",
+                    fontSize: "13px",
+                    marginBottom: "5px",
+                  }}
+                >
+                  {message.name}
+                </span>
+                {message.message}
+                <span
+                  style={{
+                    opacity: "0.5",
+                    fontSize: "small",
+                    fontWeight: "600",
+                    marginLeft: "10px",
+                    display: "flex",
+                    flexDirection: "row-reverse",
+                  }}
+                >
+                  4:00 pm
+                  {/* {new Date(message.Timestamp?.toDate().toUTCString())} */}
+                </span>
+              </p>
+              <div ref={divRef} />
+            </div>
           );
         })}
       </div>
