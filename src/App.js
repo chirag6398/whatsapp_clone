@@ -4,16 +4,16 @@ import Sidebar from "./components/Sidebar";
 import Chat from "./components/Chat.js";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import LogIn from "./components/LogIn/Login.js";
-import { useStateValue } from "./StateProvider/Stateprovider";
+// import { useStateValue } from "./StateProvider/Stateprovider";
 
 function App() {
-  const [{ user }, dispatch] = useStateValue();
-  if (false) {
-    dispatch({});
-  }
+  // const [{ user }, dispatch] = useStateValue();
+  // if (false) {
+  //   dispatch({});
+  // }
   return (
     <div className="app">
-      {!user ? (
+      {!true ? (
         <LogIn />
       ) : (
         <div className="app_body">

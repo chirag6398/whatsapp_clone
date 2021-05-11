@@ -7,12 +7,12 @@ import SearchOutLined from "@material-ui/icons/SearchOutlined";
 import MicIcon from "@material-ui/icons/MicNoneOutlined";
 import SentimentVerySatisfiedIcon from "@material-ui/icons/SentimentVerySatisfied";
 import { useParams } from "react-router-dom";
-import { db } from "../firebase/Firebase";
-import firebase from "firebase";
-import { useStateValue } from "../StateProvider/Stateprovider";
-// import userEvent from "@testing-library/user-event";
+// import { db } from "../firebase/Firebase";
+// import firebase from "firebase";
+// import { useStateValue } from "../StateProvider/Stateprovider";
+
 export default function Chat() {
-  const [{ user }, dispatch] = useStateValue();
+  // const [{ user }, dispatch] = useStateValue();
   const [seed, setSeed] = useState("");
   const [input, setInput] = useState("");
   const { roomId } = useParams();
@@ -20,36 +20,36 @@ export default function Chat() {
   const [messages, setMessages] = useState([]);
   const divRef = useRef(null);
 
-  if (false) {
-    dispatch({});
-  }
+  // if (false) {
+  //   dispatch({});
+  // }
   useEffect(() => {
     divRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  useEffect(() => {
-    if (roomId) {
-      db.collection("rooms")
-        .doc(roomId)
-        .onSnapshot((snapshot) => {
-          setRoomName(snapshot.data().name);
-        });
-      db.collection("rooms")
-        .doc(roomId)
-        .collection("messages")
-        .orderBy("Timestamp", "asc")
-        .onSnapshot((snapshot) => {
-          setMessages(
-            snapshot.docs.map((doc) => {
-              return {
-                name: doc.data().name,
-                message: doc.data().message,
-              };
-            })
-          );
-        });
-    }
-  }, [roomId]);
+  // useEffect(() => {
+  //   if (roomId) {
+  //     db.collection("rooms")
+  //       .doc(roomId)
+  //       .onSnapshot((snapshot) => {
+  //         setRoomName(snapshot.data().name);
+  //       });
+  //     db.collection("rooms")
+  //       .doc(roomId)
+  //       .collection("messages")
+  //       .orderBy("Timestamp", "asc")
+  //       .onSnapshot((snapshot) => {
+  //         setMessages(
+  //           snapshot.docs.map((doc) => {
+  //             return {
+  //               name: doc.data().name,
+  //               message: doc.data().message,
+  //             };
+  //           })
+  //         );
+  //       });
+  //   }
+  // }, [roomId]);
 
   useEffect(() => {
     setSeed(Math.floor(Math.random() * 5000));
@@ -57,11 +57,11 @@ export default function Chat() {
 
   const sendMessage = (e) => {
     e.preventDefault();
-    db.collection("rooms").doc(roomId).collection("messages").add({
-      message: input,
-      name: user.displayName,
-      Timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    });
+    // db.collection("rooms").doc(roomId).collection("messages").add({
+    //   message: input,
+    //   name: user.displayName,
+    //   Timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    // });
 
     setInput("");
   };
@@ -89,11 +89,7 @@ export default function Chat() {
         {messages.map((message, i) => {
           return (
             <div key={i}>
-              <p
-                className={`${chatStyle.message} ${
-                  message.name === user.displayName && chatStyle.receiver
-                }`}
-              >
+              <p className={chatStyle.message}>
                 <span
                   style={{
                     fontWeight: "700",
@@ -142,3 +138,6 @@ export default function Chat() {
     </div>
   );
 }
+// className={`${chatStyle.message} ${
+// message.name === user.displayName && chatStyle.receiver
+// }`}
