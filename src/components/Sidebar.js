@@ -7,15 +7,16 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import SearchOutLined from "@material-ui/icons/SearchOutlined";
 import Sidebarchats from "./Sidebarchats";
 import { useEffect, useState } from "react";
-// import { useStateValue } from "../StateProvider/Stateprovider";
+import { useStateValue } from "../StateProvider/Stateprovider";
 
-// import { db } from "../firebase/Firebase";
 export default function Sidebar() {
-  const [rooms, setRooms] = useState([
-    { name: "epic", id: 1 },
-    { name: "dance", id: 2 },
-    { name: "fav", id: 3 },
-  ]);
+  const [state] = useStateValue();
+  console.log(state);
+  // const [rooms, setRooms] = useState([
+  //   { name: "epic", id: 1 },
+  //   { name: "dance", id: 2 },
+  //   { name: "fav", id: 3 },
+  // ]);
   // const [{ user }, dispatch] = useStateValue();
   // if (false) {
   // dispatch({});
@@ -61,7 +62,7 @@ export default function Sidebar() {
       </div>
       <div className={sidebarStyle.sidebar_chats}>
         <Sidebarchats addNewChat />
-        {rooms.map((v, i) => {
+        {state.rooms.map((v, i) => {
           return <Sidebarchats key={i} id={v.id} name={v.name} />;
         })}
       </div>

@@ -20,6 +20,9 @@ export default function Chat() {
   const [messages, setMessages] = useState([]);
   const divRef = useRef(null);
 
+  const inputHandler = (e) => {
+    setInput(e.target.value);
+  };
   // if (false) {
   //   dispatch({});
   // }
@@ -62,7 +65,8 @@ export default function Chat() {
     //   name: user.displayName,
     //   Timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     // });
-
+    let obj = { message: input, name: "temprary" };
+    messages.push(obj);
     setInput("");
   };
   return (
@@ -125,9 +129,7 @@ export default function Chat() {
           <input
             type="text"
             value={input}
-            onChange={(e) => {
-              setInput(e.target.value);
-            }}
+            onChange={inputHandler}
             placeholder="enter yor message..."
           />
           <button type="submit" onClick={sendMessage}></button>
