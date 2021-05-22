@@ -3,29 +3,13 @@ import sidebarchatStyle from "../styles/sidebarchats.module.css";
 import { Avatar } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { useStateValue } from "../StateProvider/Stateprovider";
-// import { db } from "../firebase/Firebase";
 export default function Sidebarchats({ addNewChat, name, id }) {
   const [seed, setSeed] = useState("");
   const [state, dispatch] = useStateValue();
-  const [message, setMessage] = useState([]);
-  // useEffect(() => {
-  //   if (id) {
-  //     db.collection("rooms")
-  //       .doc(id)
-  //       .collection("messages")
-  //       .orderBy("Timestamp", "desc")
-  //       .onSnapshot((Snapshot) => {
-  //         setMessage(
-  //           Snapshot.docs.map((doc) => {
-  //             return {
-  //               message: doc.data().message,
-  //             };
-  //           })
-  //         );
-  //       });
-  //   }
-  // }, [id]);
-
+  // const [message, setMessage] = useState([]);
+  if (false) {
+    console.log(state);
+  }
   useEffect(() => {
     setSeed(Math.floor(Math.random() * 5000));
   }, []);
@@ -37,12 +21,12 @@ export default function Sidebarchats({ addNewChat, name, id }) {
     }
   };
   return !addNewChat ? (
-    <Link to={`/rooms/${id}`}>
+    <Link to={`/${id}`}>
       <div className={sidebarchatStyle.sidebarchat_Container}>
         <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
         <div className={sidebarchatStyle.chat_info}>
           <h3 style={{ margin: "0px" }}>{name}</h3>
-          <p style={{ margin: "0px" }}>{message[0]?.message}</p>
+          {/* <p style={{ margin: "0px" }}>{message[0]?.message}</p> */}
         </div>
       </div>
     </Link>

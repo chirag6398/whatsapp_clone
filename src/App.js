@@ -8,9 +8,7 @@ import LogIn from "./components/LogIn/Login.js";
 
 function App() {
   // const [{ user }, dispatch] = useStateValue();
-  // if (false) {
-  //   dispatch({});
-  // }
+
   return (
     <div className="app">
       {!true ? (
@@ -22,7 +20,7 @@ function App() {
               <Route exact path="/">
                 <Sidebar />
               </Route>
-              <Route exact path="/rooms/:roomId">
+              <Route exact path="/:roomId">
                 <Sidebar />
                 <Chat />
               </Route>
